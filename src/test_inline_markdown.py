@@ -3,7 +3,7 @@ from inline_markdown import (
     split_nodes_delimiter,
     extract_markdown_images,
     extract_markdown_links,
-    split_nodes_images,
+    split_nodes_image,
     split_nodes_link
 )
 
@@ -121,7 +121,7 @@ class TestInlineMarkdown(unittest.TestCase):
             "This is text with a link ![to boot dev](https://www.boot.dev) and ![to youtube](https://www.youtube.com/@bootdotdev)",
             text_type_text,
         )
-        new_nodes = split_nodes_images([node])
+        new_nodes = split_nodes_image([node])
         self.assertListEqual(
             [
                 TextNode("This is text with a link ", text_type_text),
