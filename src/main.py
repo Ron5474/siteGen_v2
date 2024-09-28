@@ -1,5 +1,6 @@
 import os
 import shutil
+import pathlib
 from block_markdown import markdown_to_html_node
 
 
@@ -56,19 +57,18 @@ def generate_page(from_path, template_path, dest_path):
 
 
 def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
-    
+    for d in os.listdir(dir_path_content):
+        if d[-2:] == 'md':
+            source_file_path = pathlib.Path(f"{dir_path_content}/{d}")
+            dest_file_path = pathlib.Path(f"{dest_dir_path}/{d[:-2]}html")
+            generate_page(source_file_path, template_path, dest_file_path)
+        else:
+            generate_pages_recursive(f"{dir_path_content}/{d}", template_path, f"{dest_dir_path}/{d}")
 
 
 def main():
-    copy_r(
-        "/home/ron/workspace/github.com/Ron5474/siteGen_v2/static",
-        "/home/ron/workspace/github.com/Ron5474/siteGen_v2/public"
-    )
-    generate_page(
-        "/home/ron/workspace/github.com/Ron5474/siteGen_v2/content/index.md",
-        "/home/ron/workspace/github.com/Ron5474/siteGen_v2/template.html",
-        "/home/ron/workspace/github.com/Ron5474/siteGen_v2/public/index.html"
-    )
+	copy_r("/home/ron/workspace/github.com/Ron5474/siteGen2/static", "/home/ron/workspace/github.com/Ron5474/siteGen2/public")
+	generate_pages_recursive("/home/ron/workspace/github.com/Ron5474/siteGen2/content", "/home/ron/workspace/github.com/Ron5474/siteGen2/template.html", "/home/ron/workspace/github.com/Ron5474/siteGen2/public")
 
 
 
